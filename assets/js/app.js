@@ -29,6 +29,7 @@ function attackMonster(mode) {
 }
 
 function attackHandler() {
+    
     attackMonster('ATTACK')
 }
 function strongAttackHnadler(){
