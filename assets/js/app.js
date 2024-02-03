@@ -1,6 +1,7 @@
 const ATTACK_VALUE = 10;
 const MONSTER_ATTACK_VALUE = 14;
 const STRONG_ATTACK_VALUE = 17;
+const HWAL_VALUE = 20;
 
 let chosenMaxlife = 100;
 let currentMonsterHealth = chosenMaxlife;
@@ -8,15 +9,7 @@ let currentPlayerHealth = chosenMaxlife;
 
 adjustHealthBars(chosenMaxlife);
 
-function attackMonster(mode) {
-  let maxDamage;
-  if (mode === "ATTACK") {
-    maxDamage = ATTACK_VALUE;
-  } else if (mode === "STRONG_ATTACK") {
-    maxDamage = STRONG_ATTACK_VALUE;
-  }
-  const damage = dealMonsterDamage(maxDamage);
-  currentMonsterHealth -= damage;
+function endRound() {
   const playerDamage = dealPlayerDamage(MONSTER_ATTACK_VALUE);
   currentPlayerHealth -= playerDamage;
   if (currentMonsterHealth <= 0 && currentPlayerHealth >= 0) {
@@ -28,13 +21,37 @@ function attackMonster(mode) {
   }
 }
 
-function attackHandler() {
-    
-    attackMonster('ATTACK')
+function attackMonster(mode) {
+  let maxDamage;
+  if (mode === "ATTACK") {
+    maxDamage = ATTACK_VALUE;
+  } else if (mode === "STRONG_ATTACK") {
+    maxDamage = STRONG_ATTACK_VALUE;
+  }
+  const damage = dealMonsterDamage(maxDamage);
+  currentMonsterHealth -= damage;
+  endRound();
 }
-function strongAttackHnadler(){
-    attackMonster('STRONG_ATTACK')
+
+function attackHandler() {
+  attackMonster("ATTACK");
+}
+function strongAttackHnadler() {
+  attackMonster("STRONG_ATTACK");
+}
+function healPlayerHandeler() {
+  let healValue;
+  if (currentPlayerHealth >= chosenMaxlife - HWAL_VALUE) {
+    alert("you cant heal to more than youe max initial health.");
+    healValue = chosenMaxlife - currentPlayerHealth;
+  } else {
+    healValue = HWAL_VALUE;
+  }
+  increasePlayerHealth(healValue);
+  currentPlayerHealth += healValue;
+  endRound();
 }
 
 attackBtn.addEventListener("click", attackHandler);
-strongAttackBtn.addEventListener("click", strongAttackHnadler)
+strongAttackBtn.addEventListener("click", strongAttackHnadler);
+healBtn.addEventListener("click", healPlayerHandeler);
