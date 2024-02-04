@@ -10,6 +10,12 @@ let hasBonuslife = true;
 
 adjustHealthBars(chosenMaxlife);
 
+function reset() {
+  let currentMonsterHealth = chosenMaxlife;
+  let currentPlayerHealth = chosenMaxlife;
+  resetGame(chosenMaxlife);
+}
+
 function endRound() {
   const initialPlayerHealth = currentPlayerHealth;
   const playerDamage = dealPlayerDamage(MONSTER_ATTACK_VALUE);
@@ -20,7 +26,7 @@ function endRound() {
     removeBonusLife();
     currentPlayerHealth = initialPlayerHealth;
     setPlayerHealth(initialPlayerHealth);
-    alert('you would be dead but the bonus life saved you!');
+    alert("you would be dead but the bonus life saved you!");
   }
 
   if (currentMonsterHealth <= 0 && currentPlayerHealth >= 0) {
@@ -29,6 +35,10 @@ function endRound() {
     alert("you lost!");
   } else if (currentPlayerHealth <= 0 && currentMonsterHealth <= 0) {
     alert("you have drow!");
+  }
+
+  if (currentMonsterHealth <= 0 || currentPlayerHealth <= 0) {
+    reset();
   }
 }
 
