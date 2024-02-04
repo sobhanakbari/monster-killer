@@ -6,12 +6,23 @@ const HWAL_VALUE = 20;
 let chosenMaxlife = 100;
 let currentMonsterHealth = chosenMaxlife;
 let currentPlayerHealth = chosenMaxlife;
+let hasBonuslife = true;
 
 adjustHealthBars(chosenMaxlife);
 
 function endRound() {
+  const initialPlayerHealth = currentPlayerHealth;
   const playerDamage = dealPlayerDamage(MONSTER_ATTACK_VALUE);
   currentPlayerHealth -= playerDamage;
+
+  if (currentPlayerHealth <= 0 && hasBonuslife) {
+    hasBonuslife = false;
+    removeBonusLife();
+    currentPlayerHealth = initialPlayerHealth;
+    setPlayerHealth(initialPlayerHealth);
+    alert('you would be dead but the bonus life saved you!');
+  }
+
   if (currentMonsterHealth <= 0 && currentPlayerHealth >= 0) {
     alertI("you win!");
   } else if (currentPlayerHealth <= 0 && currentMonsterHealth >= 0) {
